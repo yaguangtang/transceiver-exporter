@@ -308,10 +308,10 @@ func (t *TransceiverCollector) getMonitoredInterfaces() ([]string, error) {
 		return []string{}, errors.New("Cannot include and exclude interfaces at the same time")
 	}
 
-	// check if the regex is a non empty string to prevent matching no interfaces
+	// check if the regex is a non-empty string to prevent matching no interfaces
 	// when the default value of the cli flag is used
-	regexIncludeValid := t.includeInterfacesRegex.String() != ""
-	regexExcludeValid := t.excludeInterfacesRegex.String() != ""
+	regexIncludeValid := t.includeInterfacesRegex != nil && t.includeInterfacesRegex.String() != ""
+	regexExcludeValid := t.excludeInterfacesRegex != nil && t.excludeInterfacesRegex.String() != ""
 
 	ifaceNames := []string{}
 	for _, iface := range interfaces {
