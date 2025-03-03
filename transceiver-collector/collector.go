@@ -352,15 +352,16 @@ func (t *TransceiverCollector) Collect(ch chan<- prometheus.Metric, errs chan er
 	}
 	tool, err := ethtool.NewEthtool()
 	if err != nil {
-		errs <- fmt.Errorf("Could not instanciate ethtool: %v", err)
+		errs <- fmt.Errorf("could not instanciate ethtool: %v", err)
 		return
 	}
 	defer tool.Close()
 
 	for _, ifaceName := range ifaceNames {
+		log.Debugln("Collecting metrics for interface", ifaceName)
 		iface, err := tool.NewInterface(ifaceName, true)
 		if err != nil {
-			errs <- fmt.Errorf("Error fetching information for interface %s: %v", ifaceName, err)
+			errs <- fmt.Errorf("error fetching information for interface %s: %v", ifaceName, err)
 			continue
 		}
 		if iface != nil {
@@ -371,6 +372,7 @@ func (t *TransceiverCollector) Collect(ch chan<- prometheus.Metric, errs chan er
 
 func (t *TransceiverCollector) exportMetricsForInterface(iface *ethtool.Interface, ch chan<- prometheus.Metric) {
 	if t.collectInterfaceFeatures {
+		log.Debugln("Getting Interface features for", iface.Name)
 		features, err := iface.GetFeatures()
 		if err == nil {
 			for name, status := range features {
@@ -388,6 +390,8 @@ func (t *TransceiverCollector) exportMetricsForInterface(iface *ethtool.Interfac
 }
 
 func exportDriverInfoMetricsForInterface(ifaceName string, driverInfo *ethtool.DriverInfo, ch chan<- prometheus.Metric) {
+	log.Debugln("Exporting Driver Info Metrics for", ifaceName)
+
 	ch <- prometheus.MustNewConstMetric(driverDesc, prometheus.GaugeValue, 1, ifaceName, driverInfo.DriverName)
 	ch <- prometheus.MustNewConstMetric(driverVersionDesc, prometheus.GaugeValue, 1, ifaceName, driverInfo.DriverVersion)
 	ch <- prometheus.MustNewConstMetric(firmwareVersionDesc, prometheus.GaugeValue, 1, ifaceName, driverInfo.FirmwareVersion)
@@ -396,6 +400,8 @@ func exportDriverInfoMetricsForInterface(ifaceName string, driverInfo *ethtool.D
 }
 
 func (t *TransceiverCollector) exportEEPROMMetricsForInterface(ifaceName string, rom eeprom.EEPROM, ch chan<- prometheus.Metric) {
+	log.Debugln("Exporting EEPROM Metrics for", ifaceName)
+
 	ch <- prometheus.MustNewConstMetric(identifierDesc, prometheus.GaugeValue, 1, ifaceName, rom.GetIdentifier().String())
 	ch <- prometheus.MustNewConstMetric(encodingDesc, prometheus.GaugeValue, 1, ifaceName, rom.GetEncoding())
 	ch <- prometheus.MustNewConstMetric(powerClassDesc, prometheus.GaugeValue, float64(byte(rom.GetPowerClass())), ifaceName)
