@@ -3,6 +3,29 @@ entries:
   transceiver-exporter:
   - apiVersion: v2
     appVersion: 1.5.1
+    created: "2026-01-20T09:01:05.412389219Z"
+    description: Prometheus exporter for pluggable transceivers (SFP, SFP+, QSFP,
+      etc.)
+    digest: 3392acc9343c10fcd10e1df5e79ab623ec9ed5aae8980a51df1cda79592eaf81
+    home: https://github.com/wobcom/transceiver-exporter
+    keywords:
+    - prometheus
+    - exporter
+    - transceiver
+    - sfp
+    - qsfp
+    - networking
+    maintainers:
+    - name: yaguangtang
+    name: transceiver-exporter
+    sources:
+    - https://github.com/wobcom/transceiver-exporter
+    type: application
+    urls:
+    - https://github.com/yaguangtang/transceiver-exporter/releases/download/transceiver-exporter-0.1.1/transceiver-exporter-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.5.1
     created: "2026-01-20T08:29:32.817622199Z"
     description: Prometheus exporter for pluggable transceivers (SFP, SFP+, QSFP,
       etc.)
@@ -24,4 +47,4 @@ entries:
     urls:
     - https://github.com/yaguangtang/transceiver-exporter/releases/download/transceiver-exporter-0.1.0/transceiver-exporter-0.1.0.tgz
     version: 0.1.0
-generated: "2026-01-20T08:29:32.81762822Z"
+generated: "2026-01-20T09:01:05.412401833Z"
