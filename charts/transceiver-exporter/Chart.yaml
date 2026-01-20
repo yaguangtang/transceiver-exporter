@@ -1,0 +1,18 @@
+apiVersion: v2
+name: transceiver-exporter
+description: Prometheus exporter for pluggable transceivers (SFP, SFP+, QSFP, etc.)
+type: application
+version: 0.1.0
+appVersion: "1.5.1"
+home: https://github.com/wobcom/transceiver-exporter
+sources:
+  - https://github.com/wobcom/transceiver-exporter
+maintainers:
+  - name: yaguangtang
+keywords:
+  - prometheus
+  - exporter
+  - transceiver
+  - sfp
+  - qsfp
+  - networking
