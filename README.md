@@ -87,6 +87,61 @@ Starting in version 1.1.0 we added the runtime option `-collector.optical-power-
 * `transceiver_exporter_vendor_serial_number_info`: Vendor serial number
 * `transceiver_exporter_wavelength_nanometer`: Wavelength in nanometers
 
+## Helm Chart
+
+A Helm chart is available for deploying transceiver-exporter on Kubernetes.
+
+### Installation
+
+```bash
+helm repo add transceiver-exporter https://yaguangtang.github.io/transceiver-exporter
+helm repo update
+helm install transceiver-exporter transceiver-exporter/transceiver-exporter
+```
+
+### Configuration
+
+You can customize the exporter configuration using `--set` flags or a values file.
+
+Example with custom options:
+
+```bash
+helm install transceiver-exporter transceiver-exporter/transceiver-exporter \
+  --set config.includeInterfacesRegex="eno.*" \
+  --set config.collectInterfaceFeatures=false \
+  --set config.opticalPowerInDbm=true
+```
+
+Or using a values file:
+
+```yaml
+# values.yaml
+config:
+  includeInterfacesRegex: "eno.*"
+  collectInterfaceFeatures: false
+  opticalPowerInDbm: true
+
+serviceMonitor:
+  enabled: true
+```
+
+```bash
+helm install transceiver-exporter transceiver-exporter/transceiver-exporter -f values.yaml
+```
+
+### Available Configuration Options
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `config.collectInterfaceFeatures` | Collect interface features | `true` |
+| `config.opticalPowerInDbm` | Report optical powers in dBm instead of mW | `false` |
+| `config.excludeInterfaces` | Comma separated list of interfaces to exclude | `""` |
+| `config.excludeInterfacesRegex` | Regex of interfaces to exclude | `""` |
+| `config.excludeInterfacesDown` | Don't report on interfaces being management DOWN | `false` |
+| `config.includeInterfaces` | Comma separated list of interfaces to include | `""` |
+| `config.includeInterfacesRegex` | Regex of interfaces to include | `""` |
+| `serviceMonitor.enabled` | Create ServiceMonitor for Prometheus Operator | `false` |
+
 ## Maintainer
 * @vidister
 
